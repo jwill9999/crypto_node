@@ -1,0 +1,27 @@
+{
+  "logins": [{
+    "email": "jason@will.com",
+    "salt": "4a1c95a077016cad",
+    "passwordHash": "2ad8c59bb177265b92fbe64d3a9cbff7f928033e108dce5f1b68931698dee954384e1c3b17ed26fb6db6995bcb20f7eb49c049e318be72b44f581f78aae6df10"
+  }, {
+    "email": "john@test.com",
+    "salt": "3aa06dcd495ea3e8",
+    "passwordHash": "d1262642660c0a5b55af38c06206a99723d90074785e420bdd35f225777c49569eeccac2e7354e71b041b489132147737ab9f9d06a84328f66b09a01820bb669"
+  }, {
+    "email": "jane@test.com",
+    "salt": "450eb3fb668eb4e0",
+    "passwordHash": "2070fcdb73d5766c0cc968667d80323f2c7385495817bfc87518fcf12373028eafd3e565c9369a17983428cb2df42b5f5d3c32caf7f0e21c2b3a38f0a94ebcdb"
+  }, {
+    "email": "bill@test.com",
+    "salt": "2feb6097199bdb7f",
+    "passwordHash": "ec67a03aff221640a8988cbad0ea9aa4c6581f26bf40422dbde20fd3f40776be6084a2272f77b75780d43bdaaaf545874dee353a65fdf02d0d19b9a272e32556"
+  }, {
+    "email": "karen@test.com",
+    "salt": "66b1c9314243599d",
+    "passwordHash": "3aae0f1955cdebe2954af83095ade7feb25b54ffb6ed4df2f0069a5838ef4632d1127018bc57d887d1d865bd96dfbc179fda0ec8887f22117d46dde1eb7e8839"
+  }, {
+    "email": "mary@test.com",
+    "salt": "d8697d771ad8e8da",
+    "passwordHash": "fbdd4a6d9b677e461f5fc0bf86d90871932de51177d2b210a62443fb1e94be6c2cef20e7be6115f4efe388ecc7f0df8e3f4d7cb7dc5bceaa5a70c7e6a914318b"
+  }]
+}

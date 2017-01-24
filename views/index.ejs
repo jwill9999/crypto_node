@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+  <% include templates/navbar.ejs %>
+    <br>
+    <br>
+    <div class="container">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>Welcome to Cryto Text example</h1>
+        <h2>Crypto module for text string</h2><a href="https://nodejs.org/api/crypto.html">Crypto API Docs</a>
+        </br>
+        </br>
+        <form class="form-horizontal alert alert-info" action="/users/test" , method="post">
+          <div class="control-group">
+            <div>
+              <label class="control-label" for="teststring">Enter Text string to encrypt</label>
+            </div>
+            <br>
+            <div class="controls">
+              <input type="text" id="teststring" name="teststring" placeholder="Text string to encrypt">
+            </div>
+          </div>
+          <br>
+          <div class="control-group">
+            <div class="controls">
+              <button type="submit" class="btn btn-lg btn-success">convert</button>
+            </div>
+          </div>
+        </form>
+        <div class="alert alert-info">
+          <h3>Results</h3>
+          <p>Data entered :
+            <%= data1  %>
+          </p>
+          <p>String encrypted to :
+            <%= results %>
+          </p>
+        </div>
+        <h2>Encryption</h2>
+        </br>
+        <p>Here we look at converting <strong>text string</strong> to an encrypted string with the use of the crypto module
+          in Nodejs. Here we call the function <strong>encryptMyText(textString)</strong> and pass in a <strong>text string</strong>          to convert.
+        </p>
+        <br>
+        <br>
+        <pre class="alert alert-info">
+        <pre class="pre_box">
+          <h4>Encryption code</h4>
+          // node modules required 
+
+            var crypto = require('crypto');
+            const fs = require('fs');
+
+            //variables
+
+            const algorithm = 'aes-256-ctr';
+            const key = 'mMj6UXSrXbSNCGDw4aQIxXBjqIIaWTVTfUm5n5ztIdUyntR906wsvW5QCjuL';
+            
+            
+            function <strong>encryptMyText(textString</strong>){
+
+            var cipher = crypto.createCipher(algorithm,key);
+            var encrypted = cipher.update(textString,'utf8','hex');
+            encrypted += cipher.final('hex');
+            return encrypted; 
+
+        }
+              
+        </pre>
+        <pre class="pre_box"> 
+            <h4>function called </h4>  
+            <p>Variables</p>
+            <p>var textString = 'Trial string to encrypt';</p>
+            <p>var result = encryptMyText(textString)</p> 
+            </pre>
+        <pre class="pre_box">
+            <h4>Results from function</h4>
+            <p>Unencryption textString :  <strong><%= data %></p></strong>
+            <p>This is the encrypted string(result) : <strong><%= txt %></strong></p>
+            
+            </pre>
+        <a href="https://nodejs.org/api/crypto.html#crypto_class_cipher">CIPHER API LINK</a>
+        </pre>
+        <br>
+        <br>
+        <p>The file is returned encrypted.You can now save it if you so wish.</p>
+        <br>
+        <br>
+        <h2>Decryption</h2>
+        <br>
+        <p>Here we look at converting <strong>encrypted text string</strong> to an unencrypted text string with the use of the
+          crypto module in Nodejs. Here we call the function <strong>decryptMyText(encrypted)</strong> and pass in an encrypted
+          string to convert.
+        </p>
+        <br>
+        <pre class="alert alert-info">
+        <pre class="pre_box">
+                // node modules required 
+
+            var crypto = require('crypto');
+            const fs = require('fs');
+
+            //variables
+
+            const algorithm = 'aes-256-ctr';
+            const key = 'mMj6UXSrXbSNCGDw4aQIxXBjqIIaWTVTfUm5n5ztIdUyntR906wsvW5QCjuL';
+
+
+            function <strong>decryptMyText(encrypted)</strong>{
+
+            var decipher = crypto.createDecipher(algorithm,key);
+            var decrypted = decipher.update(encrypted,'hex','utf8');
+            decrypted += decipher.final('utf8');           
+            return decrypted;
+
+            }
+        </pre>
+        <pre class="pre_box"> 
+            <h4>function called </h4>  
+            <p>Variables</p>
+            <p>var result = <%= txt %></p>
+            <p>var encryptedString = result;</p>
+            <h4>Function</h4>
+            <p>var unencryptedString = decryptMyText(encryptedString)</p> 
+            </pre>
+        <pre class="pre_box">
+            <h4>Results from function</h4>
+            <p>This is the encryptedString : <strong><%= txt %></strong></p>         
+            <p>This is the unencryptedString : <strong><%= text2 %></strong></p> 
+             </pre>
+        <a href="https://nodejs.org/api/crypto.html#crypto_class_decipher">DECIPHER API LINK</a>
+        </pre>
+        <br>
+        <br>
+        <p>The file is returned Unencrypted.You can now save it if you so wish or forward it in a response.
+        </p>
+      </div>
+    </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+
+</html>

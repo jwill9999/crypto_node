@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+  <% include templates/navbar.ejs %>
+    <br>
+    <br>
+    <div class="container">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>Welcome to Cryto Buffer examples</h1>
+        <h2>Crypto module for Buffers</h2><a href="https://nodejs.org/api/crypto.html">Crypto API Docs</a>
+        </br>
+        </br>
+        <h2>Encryption</h2>
+        </br>
+        <p>Here we look at converting a <strong>Buffer</strong> to an encrypted Buffer with the use of the crypto module in
+          Nodejs. Here we call the function <strong>encryptMyBuffer(buffer)</strong> and pass a <strong>buffer</strong>.
+          This method takes a buffer and encrypts it. A cipher is created with crypto.createCipher(algorithm, key), and we
+          pass in an algorithm and key to use. The buffer is then passed into the cipher function created and the we call
+          buffer.concat on it producing an encrypted buffer which is returned to the function calling it.
+        </p>
+        </br>
+        <pre class="alert alert-info">
+        <pre class="pre_box">
+        <h4>Encryption code</h4>
+        //node_modules
+
+          const crypto = require('crypto');
+          const fs = require('fs');
+
+          //variables
+
+          const algorithm = 'aes-256-ctr';
+          const key = 'mMj6UXSrXbSNCGDw4aQIxXBjqIIaWTVTfUm5n5ztIdUyntR906wsvW5QCjuL';
+
+
+          function encryptMyBuffer(buffer) {
+
+            var cipher = crypto.createCipher(algorithm, key);
+            var crypted = Buffer.concat([cipher.update(buffer),cipher.final()]); 
+            
+              return crypted;        
+        </pre>
+        <pre class="pre_box">
+        <h4> Function call</h4>
+        <p>Variables</p>
+        <p>var result = encryptMyBuffer((new Buffer("hello world", "utf8"));  </p>
+        </pre>
+        <pre class="pre_box">
+        <h4>Output</h4>
+        <p>This take a buffer = Buffer 68 65 6c 6c 6f 20 77 6f 72 6c 64</p>
+        <p>encrypted buffer out(result) = $): �	UO�</p>
+        </pre>
+        </pre>
+        </br>
+        </br>
+        <h2>Decryption</h2>
+        </br>
+        <p>Here we look at converting an <strong>encrypted Buffer</strong> to an encrypted Buffer with the use of the crypto
+          module in Nodejs. Here we call the function <strong>decryptMyBuffer(buffer)</strong> and pass in a <strong>buffer</strong>          to convert (an encrypted one). This method takes an encypted buffer and decrypts it. A decipher is created with
+          crypto.createDecipher(algorithm, key), and we pass in an algorithm and key to use. The buffer is then passed into
+          the decipher function created and then we call buffer.concat on it producing an unencrypted buffer which is returned
+          to the function calling it.
+        </p>
+        </br>
+        <pre class="alert alert-info">
+        <pre class="pre_box">
+        <h4>Decryption code</h4>
+
+        //node_modules
+
+        const crypto = require('crypto');
+        const fs = require('fs');
+
+        //variables
+
+        const algorithm = 'aes-256-ctr';
+        const key = 'mMj6UXSrXbSNCGDw4aQIxXBjqIIaWTVTfUm5n5ztIdUyntR906wsvW5QCjuL';
+
+
+        function decryptMyBuffer(buffer) {
+
+          var decipher = crypto.createDecipher(algorithm, key);
+          var decrypted = Buffer.concat([decipher.update(buffer),decipher.final()]);
+          
+          return decrypted;
+
+        }
+        </pre>
+        <pre class="pre_box">
+        <h4> Function call</h4>
+        <p>Variables</p>
+        <p>var results = decryptMyBuffer(data); </p>
+        </pre>
+        <pre class="pre_box">
+        <h4>Output</h4>
+        <p>This take an encrypted buffer = '$): �	UO�</p>
+        <p>encrypted buffer out to buffer(results) = Buffer 68 65 6c 6c 6f 20 77 6f 72 6c 64</p>
+        </pre>
+        <a href="https://nodejs.org/api/crypto.html#crypto_class_decipher">DECIPHER API LINK</a>
+        </pre>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+
+</html>

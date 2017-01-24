@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+  <% include templates/navbar.ejs %>
+    <br>
+    <br>
+    <div class="container">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>Welcome to Cryto stream examples</h1>
+        <h2>Crypto module for Streams</h2><a href="https://nodejs.org/api/crypto.html">Crypto API Docs</a>
+        </br>
+        </br>
+        <h2>Encryption</h2>
+        </br>
+        <p>Here we look at converting <strong>Streams</strong> to an encrypted Stream with the use of the crypto module in Nodejs.
+          Here we call the function <strong>encryptMyStream(fileIn, fileout)</strong> and pass in a <strong>fileIn, fileOut</strong>          to convert then save. This method creates a read stream with the functions first argument passed, fileIn. This
+          is then piped into encryptIt function. This function converts it into an encrpted stream. We then need to output
+          this file somewhere. Here we pipe it into creatWriteStream function and pass a fileout. This then writes the data
+          to a file to be saved.
+        </p>
+        </br>
+        <pre class="alert alert-info">
+        <pre class="pre_box">
+        <h4>Encryption code</h4>
+        //node_modules
+
+        const crypto = require('crypto');
+        var fs = require('fs');
+        var zlib = require('zlib');
+
+        //variables
+
+        const algorithm = 'aes-256-ctr';
+        const key = '14189dc35ae35e75ff31d7502e245cd9bc7803838fbfd5c773cdcd79b8a28bbd';
+
+
+
+        function <strong>encryptMyStream(fileIn, fileout)</strong> {
+          var createReadStream = fs.createReadStream(fileIn);
+          var encryptit = crypto.createCipher(algorithm, key);
+          var zipit = zlib.createGzip();
+          var writestream = fs.createWriteStream(fileout);
+
+
+        /* 
+          OPTIONAL
+          add to gzip file
+          createReadStream.pipe(encryptit).pipe(zipit).pipe(writestream);
+
+        */
+          
+          createReadStream.pipe(encryptit).pipe(writestream);
+
+          //delete old file optional include below  
+
+          writestream.on('finish', function () {
+            console.log('Encrypted stream written to disk!');
+            fs.exists(fileIn, function (exists) {
+              if (exists) {
+                console.log(fileIn + ' still exists. Deleting it now ...');
+                fs.unlink(fileIn, function (done) {
+                  console.log('Unencrypted file removed Successful');
+                });
+              } else {
+                console.log(fileIn + ' not found, so not deleting.');
+              }
+            }); //end of fs.exists
+          
+          }); //end of output.on  
+          
+        }; // end of encryptMyStream 
+        
+        </pre>
+        <pre class="pre_box">
+        <div class="well">
+          <h4>Function called</h4>
+            <div>
+              <strong><p>Variables</p></strong>
+              <p>const streamdatain = 'files/stream.txt';</p>
+              <p>const streamdataout = 'files/stream.enc';</p>  
+              <strong><p>Function</p></strong>
+              <p>encryptMyStream(streamdatain, streamdataout);</p>     
+            </div>          
+        </div>     
+        </pre>
+        <pre class="pre_box">
+        <h4>Results from function</h4>        
+        <p>This take an unencrypted stream = test stream text from file. /p>
+        <p>encrypted output before gzip = ��|V�/%�X?���F@3�4\�w�<</p>
+        </pre>
+        <a href="https://nodejs.org/api/crypto.html#crypto_class_cipher">CIPHER API LINK</a>
+        </pre>
+        </br>
+        </br>
+        <p>Once the file is output we then emit finish. Once emitted this function checks to see if the original unencrypted
+          file is still there. If it is we call fs.unlink function. This function deletes that file leaving only the encrypted
+          data.
+        </p>
+        </br>
+        </br>
+        <h2>Decryption</h2>
+        </br>
+        <p>Here we look at converting <strong>encrypted stream</strong> to an unencrypted stream with the use of the crypto
+          module in Nodejs. Here we call the function <strong>decryptMyStream(fileIn, fileout)</strong> and pass in an encrypted
+          stream to convert. This method creates a read stream with the functions first argument passed, fileIn. This is
+          then piped into decryptIt function. This function converts it into an decrypted stream. We then need to output
+          this file somewhere. Here we pipe it into creatWriteStream function and pass a fileout. This then writes the data
+          to a file to be saved.
+        </p>
+        </br>
+        <pre class="alert alert-info">
+        <pre class="pre_box">
+        <h4>Decryption code</h4>
+        //node_modules
+
+        const crypto = require('crypto');
+        var fs = require('fs');
+        var zlib = require('zlib');
+
+        //variables
+
+        const algorithm = 'aes-256-ctr';
+        const key = '14189dc35ae35e75ff31d7502e245cd9bc7803838fbfd5c773cdcd79b8a28bbd';
+
+
+        function <strong>decryptMyStream(fileIn, fileout)</strong> {
+
+          var createReadStream = fs.createReadStream(fileIn);
+          var decryptit = crypto.createDecipher(algorithm, key);
+          var unzipit = zlib.createGunzip();  
+          var writestream = fs.createWriteStream(fileout);
+
+          /* 
+          OPTIONAL
+          add gunzip pipe to file
+          createReadStream.pipe(unzipit).pipe(decryptit).pipe(writestream);
+
+        */
+
+          createReadStream.pipe(decryptit).pipe(writestream);
+
+
+          //delete old file optional include 
+
+          writestream.on('finish', function () {
+            console.log('encrypted stream written to disk!');
+            fs.exists(fileIn, function (exists) {
+              if (exists) {
+                console.log(fileIn + ' still exists. Deleting it now ...');
+                fs.unlink(fileIn, function (done) {
+                  console.log('encrypted file removed Successful');
+                });
+              } else {
+                console.log(fileIn + ' not found, so not deleting.');
+              }
+            }); //end of fs.exists
+          }); //end of output.on
+        }; // end of decryptMyStream        
+        </pre>
+        <pre>
+        <div class="well">
+          <h4>Function called</h4>
+            <div>
+              <strong><p>Variables</p></strong>
+              <p>const streamdatain = 'files/stream.txt';</p>
+              <p>const streamdataout = 'files/stream.enc';</p>  
+              <strong><p>Function</p></strong>
+              <p>decryptMyStream(streamdataout, streamdatain);</p>     
+            </div>          
+        </div>     
+        </pre>
+        <pre>
+        <h4>Results from function</h4>        
+        <p>This take an encrypted stream = ��|V�/%�X?���F@3�4\�w�</p>
+        <p>Unencrypted output before gzip = test stream text from file</p>
+        </pre>
+        <a href="https://nodejs.org/api/crypto.html#crypto_class_decipher">DECIPHER API LINK</a>
+        </pre>
+        </br>
+        </br>
+        <p>Once the file is output we then emit finish. Once emitted this function checks to see if the original unencrypted
+          file is still there. If it is we call fs.unlink function. This function deletes that file leaving only the encrypted
+          data.
+        </p>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+
+</html>
