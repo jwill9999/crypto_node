@@ -33,10 +33,10 @@ Here we look at converting text string to an encrypted string with the use of th
 
 ```javascript
 
-###function called
+######function called
   
             
-###Variables  
+######Variables  
 
 var textString = 'Trial string to encrypt';
 
@@ -47,7 +47,7 @@ var result = encryptMyText(textString)
 ```
 
 ```
-###Results from function
+######Results from function
 
             
 Unencryption textString :  Trial string to encrypt
@@ -92,7 +92,7 @@ Here we look at converting encrypted text string to an unencrypted text string w
 
 ```javascript
 
-###function called  
+############function called  
             
 Variables
             
@@ -108,7 +108,7 @@ var unencryptedString = decryptMyText(encryptedString)
 
 ```
 
-###Results from function
+############Results from function
 
 
             
