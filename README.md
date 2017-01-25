@@ -8,7 +8,7 @@ Here we look at converting text string to an encrypted string with the use of th
 
 ```javascript
 
-// node modules required 
+  //Node modules required
 
   var crypto = require('crypto');
   const fs = require('fs');
@@ -33,10 +33,11 @@ Here we look at converting text string to an encrypted string with the use of th
 
 ```javascript
 
-<h4>function called </h4>
+###function called
   
             
-Variables            
+###Variables  
+
 var textString = 'Trial string to encrypt';
 
             
@@ -46,7 +47,7 @@ var result = encryptMyText(textString)
 ```
 
 ```
-<h4>Results from function</h4>
+###Results from function
 
             
 Unencryption textString :  Trial string to encrypt
@@ -91,7 +92,7 @@ Here we look at converting encrypted text string to an unencrypted text string w
 
 ```javascript
 
-<h4>function called</h4>  
+###function called  
             
 Variables
             
@@ -107,7 +108,7 @@ var unencryptedString = decryptMyText(encryptedString)
 
 ```
 
-<h4>Results from function</h4>
+###Results from function
 
 
             
