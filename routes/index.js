@@ -10,10 +10,10 @@ const Login = require('../modules/login_class').Login;
 const auth = require('../modules/authorisation');
 
 //variables
-var psw;
-var salt;
-var hash;
-var email;
+var psw,
+    salt,
+    hash,
+    email;
 
 
 router.get('/', function (req, res) {
@@ -24,13 +24,16 @@ router.get('/', function (req, res) {
 
 
 router.post('/signup', function (req, res) {
-  
+
   email = req.body.email;
   var password = req.body.password;
 
-  saltHashPassword(password, function (data) {
+  saltHashPassword(password, function (err, data) {
     console.log(data.hash);
-
+    if (err) {
+      console.log(err);
+      return;
+    }
     psw = data.password;
     salt = data.salt;
     hash = data.hash;
@@ -43,8 +46,6 @@ router.post('/signup', function (req, res) {
         return;
       }
 
-      console.log(data);
-
       data = JSON.parse(data);
       data.logins.push(login);
       fs.writeFile('files/logins/stored.json', JSON.stringify(data));
@@ -52,7 +53,6 @@ router.post('/signup', function (req, res) {
 
     });
   });
-
 });
 
 
@@ -71,7 +71,9 @@ router.get('/signup', function (req, res) {
 
 
 router.get('/signin', function (req, res) {
+
   res.render('signin');
+  
 });
 
 
@@ -80,11 +82,16 @@ router.post('/signin', function (req, res) {
   var email = req.body.email;
   var password = req.body.password;
 
-  auth.authorizeUser(email, password, function (data) {
-    if (data.true) {
+  auth.authorizeUser(email, password, function (err, authorised) {
+    if (err) {
+      console.log('Error authorising user ' + err);
+      return;
+    }
+
+    if (authorised) {
       res.redirect('/users/text');
     }
-    
+
     res.render('signin');
   });
 });

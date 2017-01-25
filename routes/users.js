@@ -16,19 +16,18 @@ const encryptMyBuffer = require('../modules/cryptoBuffer').encryptMyBuffer;
 const streamdatain = 'files/stream.txt';
 const streamdataout = 'files/stream.enc';
 
-var results;
-var data1;
+var results,
+    data1;
 
 
 /* GET users listing. */
-router.get('/', function(req, res) {
+router.get('/', function (req, res) {
   res.send('respond with a resource');
 });
 
 router.get('/text', function (req, res) {
 
   var data = 'Trial string to encrypt';
-
 
   var crypt = encryptMyText(data);
   var txt = crypt;
@@ -44,26 +43,21 @@ router.get('/text', function (req, res) {
 
   });
 
-
-
-
-
 });
 
+
+
 router.post('/test', function (req, res) {
-  data1 = req.param('teststring');
-  console.log(data1);
-  console.log(typeof (data1));
-  if (typeof (data1) === 'string') {
-    console.log('its a string');
+  data1 = req.param('teststring');  
+  
+  if (typeof (data1) === 'string') {    
     results = encryptMyText(data1);
   } else {
 
     results = encryptMyText(data1.tostring());
   }
 
-  res.redirect('/users/text');
-
+   res.redirect('/users/text');
 
 });
 
@@ -73,9 +67,19 @@ router.post('/test', function (req, res) {
 
 router.get('/streams', function (req, res) {
 
-  encryptMyStream(streamdatain, streamdataout, function () {
-    console.log('decryptMyStream to be triggered');
-    decryptMyStream(streamdataout, streamdatain);
+  encryptMyStream(streamdatain, streamdataout, function (err, message) {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    console.log(message);    
+    decryptMyStream(streamdataout, streamdatain, function(err, done){
+      if(err){
+        console.log(err);
+        return;
+      }
+      console.log(done);
+    });
 
     res.render('streams');
   });
@@ -85,18 +89,17 @@ router.get('/streams', function (req, res) {
 
 
 router.get('/buffers', function (req, res) {
-    
 
-    encryptMyBuffer(new Buffer("hello world", "utf8"), function (data) {
-    
+  encryptMyBuffer(new Buffer("hello world", "utf8"), function (err, data) {
+    if (err) {
+      console.log(err);
+      return;
+    }
     var result = decryptMyBuffer(data);
     console.log('This is converted unencrypted : ' + result);
 
-    });
-
-  res.render('buffers', {
-
   });
+  res.render('buffers');
 });
 
 

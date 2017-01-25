@@ -1,72 +1,56 @@
 const info = require('../files/logins/stored.json');
 const verifysaltHashPassword = require('./hash_salt').verifysaltHashPassword;
+require('../.env');
 
+function checkUser(email, done) {
 
-function checkUser(email, callback) {
-
-  var data = info.logins;
-  for (var i = 0; i < data.length; i++) {
-    if (data[i].email === email) {
-      callback(null, {
-        salt: data[i].salt,
-        hash: data[i].passwordHash
+      var data = info.logins;
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].email === email) {
+          done(null, {
+            salt: data[i].salt,
+            hash: data[i].passwordHash
+          });
+          return;
+        }
+      }
+      return done(null, {
+        salt: 'undefined',
+        hash: 'undefined'
       });
-      return;
-    }
-  }
-  callback(null, {
-    salt: 'undefined',
-    hash: 'undefined'
-  });
 
 }
 
 
 
 
-function authorizeUser(email, password, callback) {
-  checkUser(email, function (err, data) {
-    if (err) {
-      console.log(err);
-      return;
-    }
-
-    if (data !== 'undefined') {
-      var storedSalt = data.salt;
-      var storedHash = data.hash;
-
-      verifysaltHashPassword(password, storedSalt, function (data) {
-        if (data.hash === storedHash) {
-          callback({
-            true: true
-          });
+function authorizeUser(email, password, done) {
+      checkUser(email, function (err, data) {
+        if (err) {
+          console.log(err);
+          return done(err);
         }
-        callback({
-          false: false
-        });
 
+        if (data !== 'undefined') {
+          var storedSalt = data.salt;
+          var storedHash = data.hash;
+
+      verifysaltHashPassword(password, storedSalt, function (err, data) {
+            if(err){
+              console.log(err);
+              return done(err);
+            }
+            console.log('return data verifysalthash : ' + data);
+            if (data.hash === storedHash) {
+              return done(null, true);
+            }
+            return done(null,false);
 
       }); //verifysaltHashPassword
-    } //if (data !== 'undefined')
-
+     } //if (data !== 'undefined')
   }); //checkUser
 }//authorizeUser
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 module.exports.authorizeUser = authorizeUser;
