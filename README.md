@@ -146,7 +146,7 @@ to a file to be saved.
 
 
 
-        function <strong>encryptMyStream(fileIn, fileout)</strong> {
+        function encryptMyStream(fileIn, fileout) {
           var createReadStream = fs.createReadStream(fileIn);
           var encryptit = crypto.createCipher(algorithm, key);
           var zipit = zlib.createGzip();
@@ -237,7 +237,7 @@ Decryption code
         const key = '14189dc35ae35e75ff31d7502e245cd9bc7803838fbfd5c773cdcd79b8a28bbd';
 
 
-        function <strong>decryptMyStream(fileIn, fileout)</strong> {
+        function decryptMyStream(fileIn, fileout) {
 
           var createReadStream = fs.createReadStream(fileIn);
           var decryptit = crypto.createDecipher(algorithm, key);
@@ -304,3 +304,111 @@ Unencrypted output before gzip = test stream text from file
 Once the file is output we then emit finish. Once emitted this function checks to see if the original unencrypted
 file is still there. If it is we call fs.unlink function. This function deletes that file leaving only the encrypted
 data.
+
+
+##Crypto module for Buffers
+
+<h4>Encryption</h4>
+
+Here we look at converting a Buffer to an encrypted Buffer with the use of the crypto module in
+Nodejs. Here we call the function encryptMyBuffer(buffer) and pass a buffer.
+This method takes a buffer and encrypts it. A cipher is created with crypto.createCipher(algorithm, key), and we
+pass in an algorithm and key to use. The buffer is then passed into the cipher function created and the we call
+buffer.concat on it producing an encrypted buffer which is returned to the function calling it.
+
+```javascript
+ //node_modules
+
+          const crypto = require('crypto');
+          const fs = require('fs');
+
+          //variables
+
+          const algorithm = 'aes-256-ctr';
+          const key = 'mMj6UXSrXbSNCGDw4aQIxXBjqIIaWTVTfUm5n5ztIdUyntR906wsvW5QCjuL';
+
+
+          function encryptMyBuffer(buffer) {
+
+            var cipher = crypto.createCipher(algorithm, key);
+            var crypted = Buffer.concat([cipher.update(buffer),cipher.final()]); 
+            
+              return crypted;        
+
+```
+
+```javascript
+
+######function called
+            
+ 
+
+var result = encryptMyBuffer((new Buffer("hello world", "utf8"));
+
+```
+
+```javascript
+
+######Output
+
+This take a buffer = Buffer 68 65 6c 6c 6f 20 77 6f 72 6c 64
+
+encrypted buffer out(result) = $): �	UO�
+
+```
+
+<h4>Decryption</h4>
+
+Here we look at converting an encrypted Buffer to an encrypted Buffer with the use of the crypto
+module in Nodejs. Here we call the function decryptMyBuffer(buffer) and pass in a buffer         to convert (an encrypted one). This method takes an encypted buffer and decrypts it. A decipher is created with
+crypto.createDecipher(algorithm, key), and we pass in an algorithm and key to use. The buffer is then passed into
+the decipher function created and then we call buffer.concat on it producing an unencrypted buffer which is returned
+to the function calling it.
+
+```javascript
+Decryption code
+
+ //node_modules
+
+        const crypto = require('crypto');
+        const fs = require('fs');
+
+        //variables
+
+        const algorithm = 'aes-256-ctr';
+        const key = 'mMj6UXSrXbSNCGDw4aQIxXBjqIIaWTVTfUm5n5ztIdUyntR906wsvW5QCjuL';
+
+
+        function decryptMyBuffer(buffer) {
+
+          var decipher = crypto.createDecipher(algorithm, key);
+          var decrypted = Buffer.concat([decipher.update(buffer),decipher.final()]);
+          
+          return decrypted;
+
+        }
+
+```
+
+```javascript
+######function called
+  
+            
+######Variables  
+
+var results = decryptMyBuffer(data);
+
+
+```
+
+```javascript
+
+############Output
+            
+This take an encrypted buffer = '$): �	UO�
+            
+encrypted buffer out to buffer(results) = Buffer 68 65 6c 6c 6f 20 77 6f 72 6c 64
+
+
+```
+
