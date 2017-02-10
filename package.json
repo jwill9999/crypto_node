@@ -1,6 +1,8 @@
 {
   "name": "crypto_node",
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "examples of nodejs internal api crypto",
+  "author": "Jason Williams <jwill9999@icloud.com>",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
@@ -14,8 +16,18 @@
     "morgan": "~1.7.0",
     "serve-favicon": "~2.3.0"
   },
-     "repository" :
-  { "type" : "git"
-  , "url" : "https://github.com/jwill9999/crypto_node.git"
-  }
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jwill9999/crypto_node.git",
+    "email": "jwill9999@icloud.com"
+  },
+  "keywords": [
+    "node",
+    "nodejs",
+    "crypto",
+    "encryption",
+    "crypto module",
+    "javascript",
+    "server"
+  ]
 }

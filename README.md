@@ -405,9 +405,9 @@ var results = decryptMyBuffer(data);
 
 ############Output
             
-This take an encrypted buffer = '$): �	UO�
+This take an encrypted buffer = '$): �	UO�;
             
-encrypted buffer out to buffer(results) = Buffer 68 65 6c 6c 6f 20 77 6f 72 6c 64
+encrypted buffer out to buffer(results) = Buffer 68 65 6c 6c 6f 20 77 6f 72 6c 64;
 
 
 ```
