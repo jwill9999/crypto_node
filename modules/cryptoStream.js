@@ -5,13 +5,6 @@ var fs = require('fs');
 require('../.env');
 
 
-//variables
-
-
-
-
-
-
 
 function encryptMyStream(fileIn, fileout, done) {
 
@@ -19,7 +12,6 @@ function encryptMyStream(fileIn, fileout, done) {
   var encryptit = crypto.createCipher(process.env.ALGORITHM, process.env.SECURITY_KEY_STREAM);
   //var zipit = zlib.createGzip();
   var writestream = fs.createWriteStream(fileout);
-
 
   /* 
     OPTIONAL
